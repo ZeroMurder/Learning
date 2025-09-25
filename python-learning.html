@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изучение Python - Полный курс</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .lesson-card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #3498db;
+        }
+
+        .lesson-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .lesson-card.completed {
+            border-left-color: #27ae60;
+            background: #f8fff8;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: "Python";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .exercise {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .exercise h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .result {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .error {
+            background: #fdf2f2;
+            border-color: #e74c3c;
+            color: #c0392b;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🐍 Изучение Python</h1>
+            <p>Полный курс программирования на Python с практическими заданиями</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p>Прогресс: <span id="progress-text">0%</span></p>
+        </header>
+
+        <nav class="nav">
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('basics')">Основы</button>
+                <button class="nav-btn" onclick="showSection('control')">Управление</button>
+                <button class="nav-btn" onclick="showSection('data')">Структуры данных</button>
+                <button class="nav-btn" onclick="showSection('oop')">ООП</button>
+                <button class="nav-btn" onclick="showSection('modules')">Модули</button>
+                <button class="nav-btn" onclick="showSection('fileio')">Файлы</button>
+                <button class="nav-btn" onclick="showSection('projects')">Проекты</button>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <h2>📚 Уроки</h2>
+                <div class="lesson-card" onclick="showLesson('lesson1')">
+                    <h3>1. Переменные и типы данных</h3>
+                    <p>Изучаем основы Python</p>
+                </div>
+                <div class="lesson-card" onclick="showLesson('lesson2')">
+                    <h3>2. Операторы и выражения</h3>
+                    <p>Математические операции</p>
+                </div>
+                <div class="lesson-card" onclick="showLesson('lesson3')">
+                    <h3>3. Условия и циклы</h3>
+                    <p>Управление потоком выполнения</p>
+                </div>
+                <div class="lesson-card" onclick="showLesson('lesson4')">
+                    <h3>4. Функции</h3>
+                    <p>Создание и использование функций</p>
+                </div>
+                <div class="lesson-card" onclick="showLesson('lesson5')">
+                    <h3>5. Списки и словари</h3>
+                    <p>Работа с коллекциями данных</p>
+                </div>
+                <div class="lesson-card" onclick="showLesson('lesson6')">
+                    <h3>6. Классы и объекты</h3>
+                    <p>Объектно-ориентированное программирование</p>
+                </div>
+            </aside>
+
+            <main class="content">
+                <!-- Основы Python -->
+                <div id="basics-section" class="section">
+                    <h2>🐍 Основы Python</h2>
+                    <p>Python - это высокоуровневый язык программирования с простым и понятным синтаксисом.</p>
+                    
+                    <div class="code-block">
+# Переменные в Python
+name = "Иван"
+age = 25
+height = 1.75
+is_student = True
+
+print(f"Привет, {name}! Тебе {age} лет.")
+print(f"Рост: {height} м")
+print(f"Студент: {is_student}")
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Задание 1: Калькулятор</h3>
+                        <p>Создайте простой калькулятор на Python</p>
+                        <div class="input-group">
+                            <label>Первое число:</label>
+                            <input type="number" id="calc-num1" value="10">
+                        </div>
+                        <div class="input-group">
+                            <label>Второе число:</label>
+                            <input type="number" id="calc-num2" value="5">
+                        </div>
+                        <div class="input-group">
+                            <label>Операция:</label>
+                            <select id="calc-operation">
+                                <option value="add">Сложение</option>
+                                <option value="subtract">Вычитание</option>
+                                <option value="multiply">Умножение</option>
+                                <option value="divide">Деление</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="runCalculator()">Вычислить</button>
+                        <div id="calc-result" class="result" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Управляющие конструкции -->
+                <div id="control-section" class="section hidden">
+                    <h2>🎯 Управляющие конструкции</h2>
+                    <p>Условия и циклы позволяют управлять потоком выполнения программы.</p>
+                    
+                    <div class="code-block">
+# Условия
+age = 18
+if age >= 18:
+    print("Совершеннолетний")
+elif age >= 13:
+    print("Подросток")
+else:
+    print("Ребенок")
+
+# Циклы
+for i in range(5):
+    print(f"Итерация {i}")
+
+# Цикл while
+count = 0
+while count < 3:
+    print(f"Счетчик: {count}")
+    count += 1
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Задание 2: Угадай число</h3>
+                        <p>Создайте игру "Угадай число"</p>
+                        <div class="input-group">
+                            <label>Введите число от 1 до 10:</label>
+                            <input type="number" id="guess-number" min="1" max="10">
+                        </div>
+                        <button class="btn" onclick="guessNumber()">Угадать</button>
+                        <div id="guess-result" class="result" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Структуры данных -->
+                <div id="data-section" class="section hidden">
+                    <h2>📊 Структуры данных</h2>
+                    <p>Python предоставляет мощные встроенные структуры данных.</p>
+                    
+                    <div class="code-block">
+# Списки
+fruits = ["яблоко", "банан", "апельсин"]
+fruits.append("виноград")
+print(fruits[0])  # яблоко
+
+# Словари
+person = {
+    "имя": "Анна",
+    "возраст": 30,
+    "город": "Москва"
+}
+print(person["имя"])  # Анна
+
+# Кортежи
+coordinates = (10, 20)
+x, y = coordinates
+
+# Множества
+unique_numbers = {1, 2, 3, 4, 5}
+unique_numbers.add(6)
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Задание 3: Управление списком</h3>
+                        <p>Создайте систему управления списком задач</p>
+                        <div class="input-group">
+                            <label>Добавить задачу:</label>
+                            <input type="text" id="task-input" placeholder="Введите задачу...">
+                        </div>
+                        <button class="btn" onclick="addTask()">Добавить</button>
+                        <button class="btn btn-secondary" onclick="showTasks()">Показать все</button>
+                        <button class="btn btn-danger" onclick="clearTasks()">Очистить</button>
+                        <div id="tasks-list" class="result" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- ООП -->
+                <div id="oop-section" class="section hidden">
+                    <h2>🏗️ Объектно-ориентированное программирование</h2>
+                    <p>ООП позволяет создавать собственные типы данных и методы.</p>
+                    
+                    <div class="code-block">
+# Класс и объект
+class Car:
+    def __init__(self, brand, model, year):
+        self.brand = brand
+        self.model = model
+        self.year = year
+        self.speed = 0
+    
+    def start_engine(self):
+        return f"{self.brand} {self.model} заведен!"
+    
+    def accelerate(self, speed_increase):
+        self.speed += speed_increase
+        return f"Скорость: {self.speed} км/ч"
+    
+    def brake(self):
+        self.speed = 0
+        return "Торможение!"
+
+# Создание объекта
+my_car = Car("Toyota", "Camry", 2020)
+print(my_car.start_engine())
+print(my_car.accelerate(50))
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Задание 4: Банковский счет</h3>
+                        <p>Создайте класс для управления банковским счетом</p>
+                        <div class="input-group">
+                            <label>Имя владельца:</label>
+                            <input type="text" id="account-name" placeholder="Введите имя...">
+                        </div>
+                        <div class="input-group">
+                            <label>Начальный баланс:</label>
+                            <input type="number" id="initial-balance" value="1000">
+                        </div>
+                        <button class="btn" onclick="createAccount()">Создать счет</button>
+                        <div id="account-actions" style="display: none;">
+                            <div class="input-group">
+                                <label>Сумма операции:</label>
+                                <input type="number" id="operation-amount" value="100">
+                            </div>
+                            <button class="btn" onclick="deposit()">Пополнить</button>
+                            <button class="btn" onclick="withdraw()">Снять</button>
+                            <button class="btn btn-secondary" onclick="checkBalance()">Проверить баланс</button>
+                        </div>
+                        <div id="account-result" class="result" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Модули -->
+                <div id="modules-section" class="section hidden">
+                    <h2>📦 Модули и пакеты</h2>
+                    <p>Модули позволяют организовывать код и использовать готовые решения.</p>
+                    
+                    <div class="code-block">
+# Импорт модулей
+import math
+import random
+from datetime import datetime
+
+# Использование модулей
+print(math.pi)  # 3.141592653589793
+print(random.randint(1, 10))  # Случайное число
+print(datetime.now())  # Текущая дата и время
+
+# Создание собственного модуля
+# math_utils.py
+def add(a, b):
+    return a + b
+
+def multiply(a, b):
+    return a * b
+
+# main.py
+from math_utils import add, multiply
+result = add(5, 3)  # 8
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Задание 5: Генератор паролей</h3>
+                        <p>Создайте генератор безопасных паролей</p>
+                        <div class="input-group">
+                            <label>Длина пароля:</label>
+                            <input type="number" id="password-length" value="12" min="4" max="50">
+                        </div>
+                        <div class="input-group">
+                            <label>Включить символы:</label>
+                            <input type="checkbox" id="include-symbols" checked>
+                        </div>
+                        <button class="btn" onclick="generatePassword()">Сгенерировать пароль</button>
+                        <div id="password-result" class="result" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Работа с файлами -->
+                <div id="fileio-section" class="section hidden">
+                    <h2>📁 Работа с файлами</h2>
+                    <p>Python предоставляет удобные инструменты для работы с файлами.</p>
+                    
+                    <div class="code-block">
+# Чтение файла
+with open("data.txt", "r", encoding="utf-8") as file:
+    content = file.read()
+    print(content)
+
+# Запись в файл
+with open("output.txt", "w", encoding="utf-8") as file:
+    file.write("Привет, мир!")
+
+# Обработка исключений
+try:
+    with open("nonexistent.txt", "r") as file:
+        content = file.read()
+except FileNotFoundError:
+    print("Файл не найден!")
+except Exception as e:
+    print(f"Произошла ошибка: {e}")
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Задание 6: Дневник</h3>
+                        <p>Создайте простой дневник с сохранением записей</p>
+                        <div class="input-group">
+                            <label>Запись в дневник:</label>
+                            <textarea id="diary-entry" rows="4" placeholder="Что произошло сегодня?"></textarea>
+                        </div>
+                        <button class="btn" onclick="saveDiaryEntry()">Сохранить запись</button>
+                        <button class="btn btn-secondary" onclick="loadDiary()">Загрузить дневник</button>
+                        <div id="diary-result" class="result" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Проекты -->
+                <div id="projects-section" class="section hidden">
+                    <h2>🚀 Практические проекты</h2>
+                    <p>Применяйте полученные знания в реальных проектах.</p>
+                    
+                    <div class="exercise">
+                        <h3>Проект 1: Калькулятор</h3>
+                        <p>Создайте полнофункциональный калькулятор</p>
+                        <button class="btn" onclick="runCalculatorProject()">Запустить проект</button>
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Проект 2: Игра "Виселица"</h3>
+                        <p>Классическая игра угадывания слов</p>
+                        <button class="btn" onclick="runHangmanGame()">Играть</button>
+                    </div>
+
+                    <div class="exercise">
+                        <h3>Проект 3: Анализатор текста</h3>
+                        <p>Анализ статистики текста</p>
+                        <button class="btn" onclick="runTextAnalyzer()">Запустить</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript для интерактивности сайта
+        let currentSection = 'basics';
+        let completedLessons = new Set();
+        let tasks = [];
+        let bankAccount = null;
+
+        // Навигация по разделам
+        function showSection(sectionName) {
+            // Скрыть все разделы
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Показать выбранный раздел
+            document.getElementById(sectionName + '-section').classList.remove('hidden');
+            
+            // Обновить активную кнопку
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentSection = sectionName;
+        }
+
+        // Показать урок
+        function showLesson(lessonId) {
+            alert(`Урок ${lessonId} будет открыт в новой вкладке!`);
+            // Здесь можно добавить логику открытия уроков
+        }
+
+        // Калькулятор
+        function runCalculator() {
+            const num1 = parseFloat(document.getElementById('calc-num1').value);
+            const num2 = parseFloat(document.getElementById('calc-num2').value);
+            const operation = document.getElementById('calc-operation').value;
+            
+            let result;
+            switch(operation) {
+                case 'add': result = num1 + num2; break;
+                case 'subtract': result = num1 - num2; break;
+                case 'multiply': result = num1 * num2; break;
+                case 'divide': result = num2 !== 0 ? num1 / num2 : 'Ошибка: деление на ноль';
+            }
+            
+            const resultDiv = document.getElementById('calc-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <strong>Python код:</strong><br>
+                <code>result = ${num1} ${getOperationSymbol(operation)} ${num2}</code><br>
+                <strong>Результат:</strong> ${result}
+            `;
+        }
+
+        function getOperationSymbol(operation) {
+            const symbols = { add: '+', subtract: '-', multiply: '*', divide: '/' };
+            return symbols[operation];
+        }
+
+        // Игра "Угадай число"
+        let secretNumber = Math.floor(Math.random() * 10) + 1;
+        let attempts = 0;
+
+        function guessNumber() {
+            const guess = parseInt(document.getElementById('guess-number').value);
+            attempts++;
+            
+            const resultDiv = document.getElementById('guess-result');
+            resultDiv.style.display = 'block';
+            
+            if (guess === secretNumber) {
+                resultDiv.innerHTML = `
+                    <strong>Поздравляем! Вы угадали!</strong><br>
+                    Число: ${secretNumber}<br>
+                    Попыток: ${attempts}
+                `;
+                resultDiv.className = 'result';
+                secretNumber = Math.floor(Math.random() * 10) + 1;
+                attempts = 0;
+            } else if (guess < secretNumber) {
+                resultDiv.innerHTML = 'Слишком мало! Попробуйте больше.';
+                resultDiv.className = 'result error';
+            } else {
+                resultDiv.innerHTML = 'Слишком много! Попробуйте меньше.';
+                resultDiv.className = 'result error';
+            }
+        }
+
+        // Управление задачами
+        function addTask() {
+            const taskInput = document.getElementById('task-input');
+            const taskText = taskInput.value.trim();
+            
+            if (taskText) {
+                tasks.push({
+                    id: Date.now(),
+                    text: taskText,
+                    completed: false
+                });
+                taskInput.value = '';
+                showTasks();
+            }
+        }
+
+        function showTasks() {
+            const resultDiv = document.getElementById('tasks-list');
+            resultDiv.style.display = 'block';
+            
+            if (tasks.length === 0) {
+                resultDiv.innerHTML = 'Список задач пуст';
+                return;
+            }
+            
+            resultDiv.innerHTML = tasks.map(task => `
+                <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 5px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="text-decoration: ${task.completed ? 'line-through' : 'none'}">${task.text}</span>
+                    <button onclick="toggleTask(${task.id})" class="btn" style="padding: 5px 10px; font-size: 12px;">
+                        ${task.completed ? 'Вернуть' : 'Выполнить'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function toggleTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                showTasks();
+            }
+        }
+
+        function clearTasks() {
+            tasks = [];
+            showTasks();
+        }
+
+        // Банковский счет
+        function createAccount() {
+            const name = document.getElementById('account-name').value;
+            const balance = parseFloat(document.getElementById('initial-balance').value);
+            
+            if (name) {
+                bankAccount = {
+                    owner: name,
+                    balance: balance,
+                    transactions: []
+                };
+                
+                document.getElementById('account-actions').style.display = 'block';
+                document.getElementById('account-result').style.display = 'block';
+                document.getElementById('account-result').innerHTML = `
+                    <strong>Счет создан!</strong><br>
+                    Владелец: ${name}<br>
+                    Начальный баланс: ${balance} руб.
+                `;
+            }
+        }
+
+        function deposit() {
+            if (bankAccount) {
+                const amount = parseFloat(document.getElementById('operation-amount').value);
+                bankAccount.balance += amount;
+                bankAccount.transactions.push({ type: 'deposit', amount: amount, date: new Date() });
+                checkBalance();
+            }
+        }
+
+        function withdraw() {
+            if (bankAccount) {
+                const amount = parseFloat(document.getElementById('operation-amount').value);
+                if (amount <= bankAccount.balance) {
+                    bankAccount.balance -= amount;
+                    bankAccount.transactions.push({ type: 'withdraw', amount: amount, date: new Date() });
+                } else {
+                    alert('Недостаточно средств!');
+                }
+                checkBalance();
+            }
+        }
+
+        function checkBalance() {
+            if (bankAccount) {
+                document.getElementById('account-result').innerHTML = `
+                    <strong>Баланс счета:</strong> ${bankAccount.balance} руб.<br>
+                    <strong>Владелец:</strong> ${bankAccount.owner}<br>
+                    <strong>Транзакций:</strong> ${bankAccount.transactions.length}
+                `;
+            }
+        }
+
+        // Генератор паролей
+        function generatePassword() {
+            const length = parseInt(document.getElementById('password-length').value);
+            const includeSymbols = document.getElementById('include-symbols').checked;
+            
+            const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            const allChars = includeSymbols ? chars + symbols : chars;
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += allChars.charAt(Math.floor(Math.random() * allChars.length));
+            }
+            
+            document.getElementById('password-result').style.display = 'block';
+            document.getElementById('password-result').innerHTML = `
+                <strong>Сгенерированный пароль:</strong><br>
+                <code style="font-size: 18px; background: #f8f9fa; padding: 10px; border-radius: 5px; display: block; margin: 10px 0;">${password}</code>
+                <strong>Длина:</strong> ${length} символов<br>
+                <strong>Символы:</strong> ${includeSymbols ? 'Включены' : 'Отключены'}
+            `;
+        }
+
+        // Дневник
+        function saveDiaryEntry() {
+            const entry = document.getElementById('diary-entry').value;
+            if (entry) {
+                const diary = JSON.parse(localStorage.getItem('diary') || '[]');
+                diary.push({
+                    date: new Date().toLocaleString(),
+                    content: entry
+                });
+                localStorage.setItem('diary', JSON.stringify(diary));
+                
+                document.getElementById('diary-result').style.display = 'block';
+                document.getElementById('diary-result').innerHTML = 'Запись сохранена!';
+                document.getElementById('diary-entry').value = '';
+            }
+        }
+
+        function loadDiary() {
+            const diary = JSON.parse(localStorage.getItem('diary') || '[]');
+            const resultDiv = document.getElementById('diary-result');
+            resultDiv.style.display = 'block';
+            
+            if (diary.length === 0) {
+                resultDiv.innerHTML = 'Дневник пуст';
+            } else {
+                resultDiv.innerHTML = diary.map(entry => `
+                    <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 5px;">
+                        <strong>${entry.date}</strong><br>
+                        ${entry.content}
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Проекты
+        function runCalculatorProject() {
+            alert('Проект калькулятора будет открыт в новой вкладке!');
+        }
+
+        function runHangmanGame() {
+            alert('Игра "Виселица" будет открыта в новой вкладке!');
+        }
+
+        function runTextAnalyzer() {
+            alert('Анализатор текста будет открыт в новой вкладке!');
+        }
+
+        // Обновление прогресса
+        function updateProgress() {
+            const totalLessons = 6;
+            const completed = completedLessons.size;
+            const progress = (completed / totalLessons) * 100;
+            
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = Math.round(progress) + '%';
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Python Learning Platform загружен!');
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
